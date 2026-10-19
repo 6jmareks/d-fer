@@ -1,9 +1,6 @@
 #![no_std]
 #![no_main]
 
-//cargo build --target thumbv7em-none-eabihf
-//can't cargo run because of no_std and no_main
-
 use core::panic::PanicInfo;
 
 #[panic_handler]
@@ -19,13 +16,15 @@ static message2: &[u8] = b"DFER!\n";
 
 #[unsafe(no_mangle)]
 pub extern "C" fn _start() -> ! {
+    //kernel entry point
     
     let mut glob_pointer_position: usize = 0;
     print(message1, 0x0f, &mut glob_pointer_position);
     print(message2, 0x0a, &mut glob_pointer_position);
 
+
     loop {
-        //entry point of the kernel 
+        
         
 
     }
