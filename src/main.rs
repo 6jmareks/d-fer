@@ -14,11 +14,33 @@ fn panic(_info: &PanicInfo) -> ! {
     }
 
 }
+static message1: &[u8] = b"Welcome to ";
+static message2: &[u8] = b"DFER!\n";
 
 #[unsafe(no_mangle)]
 pub extern "C" fn _start() -> ! {
+    
+    let mut glob_pointer_position: usize = 0;
+    print(message1, 0x0f, &mut glob_pointer_position);
+    print(message2, 0x0a, &mut glob_pointer_position);
+
     loop {
         //entry point of the kernel 
+        
 
     }
+}
+
+
+fn print(msg: &[u8], colour: u8, current_pointer_position: &mut usize) {
+    let vga_buffer = 0xb8000 as *mut u8;
+    for (i, &byte) in msg.iter().enumerate() {
+            unsafe {
+                *vga_buffer.offset(*current_pointer_position as isize) = byte;
+                *vga_buffer.offset(*current_pointer_position as isize + 1) = colour;
+            }
+            *current_pointer_position += 2;
+        
+        }
+    
 }
